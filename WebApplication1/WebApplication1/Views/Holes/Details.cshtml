@@ -1,0 +1,42 @@
+﻿@model WebApplication1.Hole
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Hole</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GolfCourse1.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GolfCourse1.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Par)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Par)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

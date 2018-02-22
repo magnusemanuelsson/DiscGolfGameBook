@@ -1,0 +1,42 @@
+﻿@model WebApplication1.GameRound
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GameRound</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Game1.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Game1.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hole1.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hole1.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Throws)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Throws)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
