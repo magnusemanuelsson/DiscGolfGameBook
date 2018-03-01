@@ -19,9 +19,7 @@
         @Html.DropDownList("Course", Enumerable.Empty<SelectListItem>(), "Select Course", new { @disabled = "disabled" })
     </div>
 
-    <div>
-        @Html.ActionLink("Start Game", "Start", new { id = item.ID })
-    </div>
+    <input type="submit" value="Starta" />
 }
 
 <script>

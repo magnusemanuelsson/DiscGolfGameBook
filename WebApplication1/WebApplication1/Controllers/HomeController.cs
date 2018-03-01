@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -44,6 +44,15 @@ namespace WebApplication1.Controllers
             ViewBag.Locations = new SelectList(db.GolfCourse, "Name", "Location");
 
             return View(selectCourse);
+        }
+
+        [HttpPost]
+        public ActionResult Spela(FormCollection collection)
+        {
+            Session["mittdata"] += collection["LocationDD"].ToString();
+            //Response.Redirect("~/Home/About");
+
+            return this.RedirectToAction("Index" , "");
         }
 
         [HttpPost]

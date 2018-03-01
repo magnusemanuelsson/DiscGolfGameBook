@@ -31,7 +31,7 @@ namespace WebApplication1
                 {
                     Session["new"] = TextBoxLösen.Text;
                     Response.Write("Password is correct");
-                    Response.Redirect("Management.aspx");
+                    Response.Redirect("~/Home/Spela");
 
                 }
                 else
