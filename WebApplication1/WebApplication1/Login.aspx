@@ -65,6 +65,13 @@
                         <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Registration.aspx">Ny användare registrera här!</asp:HyperLink>
                     </td>
                 </tr>
+                <tr>
+                    <td class="auto-style2">&nbsp;</td>
+                    <td class="auto-style7">
+                        &nbsp;</td>
+                    <td>
+                        &nbsp;</td>
+                </tr>
             </table>
         </div>
     </form>
