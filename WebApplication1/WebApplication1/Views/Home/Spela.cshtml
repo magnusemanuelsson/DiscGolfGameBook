@@ -14,13 +14,16 @@
         @Html.DropDownList("LocationDD", Model.Location, "Select Location")
     </div>
 
-
     <div class="course">
         @Html.DropDownList("Course", Enumerable.Empty<SelectListItem>(), "Select Course", new { @disabled = "disabled" })
     </div>
 
     <div>
-        @Html.ActionLink("Start Game", "Start", new { id = item.ID })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
     </div>
 }
 

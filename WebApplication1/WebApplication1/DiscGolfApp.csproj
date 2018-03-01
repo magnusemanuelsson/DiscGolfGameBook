@@ -236,6 +236,7 @@
     <Content Include="Views\Players\Edit.cshtml" />
     <Content Include="Views\Players\Index.cshtml" />
     <Content Include="Views\Home\Spela.cshtml" />
+    <Content Include="Views\Home\PlayRound.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
