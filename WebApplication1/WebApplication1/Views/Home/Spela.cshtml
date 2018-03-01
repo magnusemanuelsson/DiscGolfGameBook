@@ -1,0 +1,46 @@
+﻿@model WebApplication1.SelectCourse
+@{
+    ViewBag.Title = "Spela";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<h2>Spela</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="location">
+        @Html.DropDownList("LocationDD", Model.Location, "Select Location")
+    </div>
+
+
+    <div class="course">
+        @Html.DropDownList("Course", Enumerable.Empty<SelectListItem>(), "Select Course", new { @disabled = "disabled" })
+    </div>
+
+    <div>
+        @Html.ActionLink("Start Game", "Start", new { id = item.ID })
+    </div>
+}
+
+<script>
+$(document).ready(function () {
+    $("#LocationDD").change(function () {
+        $.ajax({
+            url: "@Url.Action("CoursesByLocation")",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ locationName: $("[name=LocationDD] option:selected").text() }),
+            datatype: "application/json",
+            success: function (data) {
+            var options = "";
+            $.each(data, function () {
+                options += "<option value='" + this.id + "'>" + this.course + "</option>";
+            });
+            $("[name=Course]").prop("disabled", false).html(options);
+            }
+        });
+    });
+});
+</script>

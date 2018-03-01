@@ -178,6 +178,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GolfCourse.cs" />
+    <Compile Include="Models\SelectCourse.cs" />
+    <Compile Include="Models\SelectLocation.cs" />
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\Player.cs" />
@@ -259,6 +261,7 @@
     <Content Include="Views\Players\Details.cshtml" />
     <Content Include="Views\Players\Edit.cshtml" />
     <Content Include="Views\Players\Index.cshtml" />
+    <Content Include="Views\Home\Spela.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
