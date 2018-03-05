@@ -80,7 +80,7 @@ namespace WebApplication1.Controllers
                            {
                                id = s.ID,
                            }).ToArray();
-            Debug.WriteLine("holes = " + holes.Length);
+
             int i = 0;
             foreach (var element in holes)
             {
