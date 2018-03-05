@@ -148,7 +148,16 @@ namespace WebApplication1.Controllers
                 int id = (int)HttpContext.Session["currentID"];
                 int currentHoleNumber = (from r in db.GameRound where r.ID == id select r.Hole1.Number).First();
                 int gameID = (from r in db.GameRound where r.ID == id select r.Game).First();
-                currentHoleNumber++;
+                bool next = false;
+                if (Request.Form["previousbutton"] != null)
+                {
+                    currentHoleNumber--;
+                }
+                else if (Request.Form["nextbutton"] != null)
+                {
+                    currentHoleNumber++;
+                    next = true;
+                }
                 int nextRoundID;
                 if ((from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == currentHoleNumber select s).FirstOrDefault() != null)
                 {
@@ -156,7 +165,14 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    nextRoundID = (from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == 1 select s).FirstOrDefault().ID;
+                    if (next)
+                    {
+                        nextRoundID = ((from s in db.GameRound where s.Game1.ID == gameID select s).OrderBy(o => o.Hole1.Number)).FirstOrDefault().ID;
+                    }
+                    else
+                    {
+                        nextRoundID = ((from s in db.GameRound where s.Game1.ID == gameID select s).OrderByDescending(o => o.Hole1.Number)).FirstOrDefault().ID;
+                    }
                 }
                 return RedirectToAction("PlayRound", new { id = nextRoundID });
             }
@@ -167,8 +183,6 @@ namespace WebApplication1.Controllers
         public ActionResult FinishRound(int id)
         {
             var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
-
-
             return View(gameRounds.ToList());
         }
     }

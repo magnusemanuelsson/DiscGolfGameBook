@@ -8,16 +8,24 @@
 
 <table class="table">
     <tr>
-       
+
         <th>
             @Html.DisplayNameFor(model => model.Hole1.Number)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Hole1.Par)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Throws)
+        </th>
+        <th>
+            <p>
+                Score
+            </p>
         </th>
         <th></th>
     </tr>
-
+    @{ int score = 0;}
     @foreach (var item in Model)
     {
         <tr>
@@ -26,9 +34,35 @@
                 @Html.DisplayFor(modelItem => item.Hole1.Number)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Hole1.Par)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Throws)
             </td>
+            <td>
+                <p>
+                    @(item.Throws - item.Hole1.Par)
+                </p>
+            </td>
         </tr>
+         
+        score = score + ((int)item.Throws - item.Hole1.Par);
+        
     }
+    <tr>
+        <td>
+            <p>Total score</p>
+        </td>
+        <td>
 
+        </td>
+        <td>
+
+        </td>
+        <td>
+            <p>@( score)</p>
+        </td>
+    </tr>
 </table>
+
+
