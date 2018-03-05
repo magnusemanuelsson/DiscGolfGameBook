@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebApplication1.GameRound>
+
+@{
+    ViewBag.Title = "Total score";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Hole1.Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Throws)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Hole1.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Throws)
+            </td>
+        </tr>
+    }
+
+</table>

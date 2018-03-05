@@ -160,5 +160,12 @@ namespace WebApplication1.Controllers
             ViewBag.Hole = new SelectList(db.Hole, "ID", "ID", gameRound.Hole);
             return View(gameRound);
         }
+        public ActionResult FinishRound(int id)
+        {
+            var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
+
+
+            return View(gameRounds.ToList());
+        }
     }
 }
