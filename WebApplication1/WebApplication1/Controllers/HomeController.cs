@@ -45,17 +45,48 @@ namespace WebApplication1.Controllers
             if (!String.IsNullOrEmpty(searchString)) { golfCourses = golfCourses.Where(s => s.Location.Contains(searchString)); }
 
             ViewBag.Locations = new SelectList(db.GolfCourse, "Name", "Location");
-
+            //ViewBag.användare = Session["användare"].ToString();
             return View(selectCourse);
         }
 
         [HttpPost]
         public ActionResult Spela(FormCollection collection)
         {
-            Session["mittdata"] += collection["LocationDD"].ToString();
-            //Response.Redirect("~/Home/About");
+            Game newGame = new Game();
 
-            return this.RedirectToAction("Index" , "");
+            String courseId = collection["Course"];
+            int IdCourse = Int32.Parse(courseId);
+            
+            newGame.GolfCourse = IdCourse;
+            newGame.Player = 1;
+
+            if (ModelState.IsValid)
+            {
+                db.Game.Add(newGame);
+                db.SaveChanges();
+                //return RedirectToAction("PlayRound");
+            }
+
+            var courses = (from s in db.Hole
+                           where s.GolfCourse.Equals(IdCourse)
+                           select new
+                           {
+                               id = s.ID,
+                           }).ToArray();
+
+            int i = 0;
+            foreach (var element in courses)
+            {
+                GameRound gameround = new GameRound();
+                gameround.Game = newGame.ID;
+                gameround.Hole = element.id;
+                i++;
+            }
+            
+            return RedirectToAction("PlayRound" , newGame.ID);
+            
+ 
+        
         }
 
         [HttpPost]

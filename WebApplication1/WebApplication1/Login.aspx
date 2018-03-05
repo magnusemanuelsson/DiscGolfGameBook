@@ -25,10 +25,10 @@
         }
         .auto-style6 {
             height: 30px;
-            width: 133px;
+            width: 100px;
         }
         .auto-style7 {
-            width: 133px;
+            width: 100px;
         }
     </style>
 </head>
@@ -41,7 +41,7 @@
                 <tr>
                     <td class="auto-style3">Användarnamn</td>
                     <td class="auto-style6">
-                        <asp:TextBox ID="TextBoxAnvändarnamn" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
+                        <asp:TextBox ID="TextBoxAnvändarnamn" runat="server" OnTextChanged="TextBox1_TextChanged" Width="153px"></asp:TextBox>
                     </td>
                     <td class="auto-style4">
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBoxAnvändarnamn" ErrorMessage="Fyll i användarnamn"></asp:RequiredFieldValidator>
@@ -50,7 +50,7 @@
                 <tr>
                     <td class="auto-style2">Lösenord</td>
                     <td class="auto-style7">
-                        <asp:TextBox ID="TextBoxLösen" runat="server" TextMode="Password" Width="123px"></asp:TextBox>
+                        <asp:TextBox ID="TextBoxLösen" runat="server" TextMode="Password" Width="153px"></asp:TextBox>
                     </td>
                     <td>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBoxLösen" ErrorMessage="Fyll i lösenord"></asp:RequiredFieldValidator>

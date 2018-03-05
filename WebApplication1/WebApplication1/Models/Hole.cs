@@ -15,6 +15,7 @@ namespace WebApplication1
             GameRound = new HashSet<GameRound>();
         }
 
+        public static IEnumerable<object> AsEnumerable { get; internal set; }
         public int ID { get; set; }
 
         public int GolfCourse { get; set; }

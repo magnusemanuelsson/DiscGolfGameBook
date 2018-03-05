@@ -30,6 +30,7 @@ namespace WebApplication1
                 if(password == TextBoxLösen.Text)
                 {
                     Session["new"] = TextBoxLösen.Text;
+                    Session["användare"] = TextBoxAnvändarnamn.Text;
                     Response.Write("Password is correct");
                     Response.Redirect("~/Home/Spela");
 
