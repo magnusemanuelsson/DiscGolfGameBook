@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using WebApplication1;
 
 namespace WebApplication1.Controllers
@@ -53,6 +55,7 @@ namespace WebApplication1.Controllers
         public ActionResult Spela(FormCollection collection)
         {
             Game newGame = new Game();
+            int gameID = 0;
 
             String courseId = collection["Course"];
             int IdCourse = Int32.Parse(courseId);
@@ -64,26 +67,35 @@ namespace WebApplication1.Controllers
             {
                 db.Game.Add(newGame);
                 db.SaveChanges();
-                //return RedirectToAction("PlayRound");
+                gameID = newGame.ID;
             }
 
-            var courses = (from s in db.Hole
-                           where s.GolfCourse.Equals(IdCourse)
+            var holes = (from s in db.Hole
+                           where s.GolfCourse1.ID == IdCourse
                            select new
                            {
                                id = s.ID,
                            }).ToArray();
-
+            Debug.WriteLine("holes = " + holes.Length);
             int i = 0;
-            foreach (var element in courses)
+            foreach (var element in holes)
             {
                 GameRound gameround = new GameRound();
                 gameround.Game = newGame.ID;
                 gameround.Hole = element.id;
+                Debug.WriteLine("Hole ID = " + element.id);
+                gameround.Throws = 0;
                 i++;
+                if (ModelState.IsValid)
+                {
+                    db.GameRound.Add(gameround);
+                    db.SaveChanges();
+                }
             }
-            
-            return RedirectToAction("PlayRound" , newGame.ID);
+
+            int startRoundID = (from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == 1 select s).First().ID;
+
+            return RedirectToAction("PlayRound" , new { id = startRoundID });
             
  
         
@@ -116,6 +128,8 @@ namespace WebApplication1.Controllers
                 return HttpNotFound();
             }
             ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
+            this.Session["currentID"] = id;
+            ViewBag.gameID = (from r in db.GameRound where r.ID == id select r.Game).First();
             return View(gameRound);
         }
 
@@ -127,7 +141,20 @@ namespace WebApplication1.Controllers
             {
                 db.Entry(gameRound).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                int id = (int)HttpContext.Session["currentID"];
+                int currentHoleNumber = (from r in db.GameRound where r.ID == id select r.Hole1.Number).First();
+                int gameID = (from r in db.GameRound where r.ID == id select r.Game).First();
+                currentHoleNumber++;
+                int nextRoundID;
+                if ((from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == currentHoleNumber select s).FirstOrDefault() != null)
+                {
+                    nextRoundID = (from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == currentHoleNumber select s).FirstOrDefault().ID;
+                }
+                else
+                {
+                    nextRoundID = (from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == 1 select s).FirstOrDefault().ID;
+                }
+                return RedirectToAction("PlayRound", new { id = nextRoundID });
             }
             ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
             ViewBag.Hole = new SelectList(db.Hole, "ID", "ID", gameRound.Hole);

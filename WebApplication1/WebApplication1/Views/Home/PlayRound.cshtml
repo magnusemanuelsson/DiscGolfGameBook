@@ -32,6 +32,8 @@
             <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
+
+    @Html.ActionLink("Finish Game", "FinishRound", "Home", new { id = ViewBag.gameID }, null)
 </div>
 }
 
