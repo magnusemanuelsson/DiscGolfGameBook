@@ -18,7 +18,9 @@
     <div class="course">
         @Html.DropDownList("Course", Enumerable.Empty<SelectListItem>(), "Select Course", new { @disabled = "disabled" })
     </div>
+    @ViewBag.användarenamn;
 
+    @ViewBag.användare;
     <input type="submit" value="Starta" />
 }
 
