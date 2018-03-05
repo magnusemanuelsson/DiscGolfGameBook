@@ -183,6 +183,12 @@ namespace WebApplication1.Controllers
         public ActionResult FinishRound(int id)
         {
             var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
+
+            Game game = new Game();
+            game = db.Game.Find(id);
+            game.Active = 0;
+            db.Entry(game).State = EntityState.Modified;
+            db.SaveChanges();
             return View(gameRounds.ToList());
         }
     }
