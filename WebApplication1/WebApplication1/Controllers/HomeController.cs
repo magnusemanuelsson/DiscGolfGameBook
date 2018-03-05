@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1;
@@ -67,6 +70,37 @@ namespace WebApplication1.Controllers
                           }).ToArray();
 
             return Json(courses, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PlayRound(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GameRound gameRound = db.GameRound.Find(id);
+            if (gameRound == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
+            return View(gameRound);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PlayRound([Bind(Include = "ID,Game,Hole,Throws")] GameRound gameRound)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(gameRound).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
+            ViewBag.Hole = new SelectList(db.Hole, "ID", "ID", gameRound.Hole);
+            return View(gameRound);
         }
     }
 }
