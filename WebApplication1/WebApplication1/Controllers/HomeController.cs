@@ -167,11 +167,11 @@ namespace WebApplication1.Controllers
                 {
                     if (next)
                     {
-                        nextRoundID = (from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == 1 select s).FirstOrDefault().ID;
+                        nextRoundID = ((from s in db.GameRound where s.Game1.ID == gameID select s).OrderBy(o => o.Hole1.Number)).FirstOrDefault().ID;
                     }
                     else
                     {
-                        nextRoundID = (from s in db.GameRound where s.Game1.ID == gameID select s).LastOrDefault().ID;
+                        nextRoundID = ((from s in db.GameRound where s.Game1.ID == gameID select s).OrderByDescending(o => o.Hole1.Number)).FirstOrDefault().ID;
                     }
                 }
                 return RedirectToAction("PlayRound", new { id = nextRoundID });
