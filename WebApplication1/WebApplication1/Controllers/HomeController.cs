@@ -163,8 +163,6 @@ namespace WebApplication1.Controllers
         public ActionResult FinishRound(int id)
         {
             var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
-
-
             return View(gameRounds.ToList());
         }
     }
