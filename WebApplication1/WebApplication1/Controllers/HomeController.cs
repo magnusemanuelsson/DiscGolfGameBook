@@ -47,7 +47,8 @@ namespace WebApplication1.Controllers
             if (!String.IsNullOrEmpty(searchString)) { golfCourses = golfCourses.Where(s => s.Location.Contains(searchString)); }
 
             ViewBag.Locations = new SelectList(db.GolfCourse, "Name", "Location");
-            //ViewBag.användare = Session["användare"].ToString();
+            ViewBag.användarenamn = Session["användare"].ToString();
+            ViewBag.användare = Session["användarID"].ToString();
             return View(selectCourse);
         }
 
@@ -59,9 +60,12 @@ namespace WebApplication1.Controllers
 
             String courseId = collection["Course"];
             int IdCourse = Int32.Parse(courseId);
-            
+
+            string userID = Session["användarID"].ToString();
+            int IdUser = Int32.Parse(userID);
+
             newGame.GolfCourse = IdCourse;
-            newGame.Player = 1;
+            newGame.Player = IdUser;
 
             if (ModelState.IsValid)
             {
@@ -175,6 +179,13 @@ namespace WebApplication1.Controllers
             ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
             ViewBag.Hole = new SelectList(db.Hole, "ID", "ID", gameRound.Hole);
             return View(gameRound);
+        }
+        public ActionResult FinishRound(int id)
+        {
+            var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
+
+
+            return View(gameRounds.ToList());
         }
     }
 }

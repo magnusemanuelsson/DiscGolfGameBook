@@ -25,12 +25,17 @@ namespace WebApplication1
             {
                 conn.Open();
                 string checkPasswordQuery = "select password from Player where Username= '" + TextBoxAnvändarnamn.Text + "' ";
+                string idOnUser = "select ID from Player where Username= '" + TextBoxAnvändarnamn.Text + "' ";
                 SqlCommand passComm = new SqlCommand(checkPasswordQuery, conn);
+                SqlCommand Iduser = new SqlCommand(idOnUser, conn);
+                string UserId = Iduser.ExecuteScalar().ToString();
+
                 string password = passComm.ExecuteScalar().ToString().Replace(" ","");
                 if(password == TextBoxLösen.Text)
                 {
                     Session["new"] = TextBoxLösen.Text;
                     Session["användare"] = TextBoxAnvändarnamn.Text;
+                    Session["användarID"] = UserId;
                     Response.Write("Password is correct");
                     Response.Redirect("~/Home/Spela");
 
