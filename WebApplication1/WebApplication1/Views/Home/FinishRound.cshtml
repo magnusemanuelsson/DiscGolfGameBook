@@ -26,6 +26,9 @@
         <th></th>
     </tr>
     @{ int score = 0;}
+    @{ int totalThrows = 0;}
+    @{ int coursePar = 0;}
+    @{ string plus = "";}
     @foreach (var item in Model)
     {
         <tr>
@@ -45,22 +48,27 @@
                 </p>
             </td>
         </tr>
-         
+
         score = score + ((int)item.Throws - item.Hole1.Par);
-        
+        if(score > 0)
+        {
+            plus = "+" + score;
+        }
+        totalThrows = totalThrows + ((int)item.Throws);
+        coursePar = coursePar + ((int)item.Hole1.Par);
     }
     <tr>
         <td>
-            <p>Total score</p>
+            <p>Total </p>
         </td>
         <td>
-
+            <p>Course par: @(coursePar)</p>
         </td>
         <td>
-
+            <p>@(totalThrows)</p>
         </td>
         <td>
-            <p>@( score)</p>
+            <p>@(plus)</p>
         </td>
     </tr>
 </table>
