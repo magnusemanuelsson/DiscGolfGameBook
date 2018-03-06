@@ -27,6 +27,9 @@ namespace WebApplication1
         [Column("Total Par")]
         public int? Total_Par { get; set; }
 
+        [Range(0, 1, ErrorMessage = "Active must be 1 (true) or 0 (false)")]
+        public int Active { get; set; } = 1;
+
         public virtual GolfCourse GolfCourse1 { get; set; }
 
         public virtual Player Player1 { get; set; }

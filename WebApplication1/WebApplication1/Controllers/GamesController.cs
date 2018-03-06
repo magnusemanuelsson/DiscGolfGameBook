@@ -49,7 +49,7 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Player,GolfCourse,Date,Total_Par")] Game game)
+        public ActionResult Create([Bind(Include = "ID,Player,GolfCourse,Date,Total_Par,Active")] Game game)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace WebApplication1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Player,GolfCourse,Date,Total_Par")] Game game)
+        public ActionResult Edit([Bind(Include = "ID,Player,GolfCourse,Date,Total_Par,Active")] Game game)
         {
             if (ModelState.IsValid)
             {
