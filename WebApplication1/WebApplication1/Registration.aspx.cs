@@ -48,10 +48,11 @@ namespace WebApplication1
                     com.Parameters.AddWithValue("@Username", TextBoxAnvändarnamn.Text);
                     com.Parameters.AddWithValue("@Password", TextBoxLösen.Text);
                     com.ExecuteNonQuery();
-                    Response.Redirect("Management.aspx");
                     Response.Write("Din användare är skapad");
+                    Response.Redirect("Login.aspx");
 
                     conn.Close();
+                   
                 }
                 catch(Exception ex)
                 {
