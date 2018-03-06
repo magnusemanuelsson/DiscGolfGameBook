@@ -20,8 +20,10 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -262,6 +264,9 @@
     <Content Include="Views\Home\Spela.cshtml" />
     <Content Include="Views\Home\PlayRound.cshtml" />
     <Content Include="Views\Home\FinishRound.cshtml" />
+    <Content Include="Views\Home\Stats.cshtml">
+      <BrowseToURL>~/Home/Stats</BrowseToURL>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

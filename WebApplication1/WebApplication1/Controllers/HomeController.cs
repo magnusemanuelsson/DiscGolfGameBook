@@ -186,9 +186,43 @@ namespace WebApplication1.Controllers
 
             Game game = new Game();
             game = db.Game.Find(id);
+            Session["currentID"] = id;
+
             game.Active = 0;
             db.Entry(game).State = EntityState.Modified;
             db.SaveChanges();
+            return View(gameRounds.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult FinishRound(int id)
+        {
+            var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
+
+            Game game = new Game();
+            game = db.Game.Find(id);
+            Session["currentID"] = id;
+
+            game.Active = 0;
+            db.Entry(game).State = EntityState.Modified;
+            db.SaveChanges();
+            return View(gameRounds.ToList());
+        }
+        public ActionResult Stats(int Point)
+        {
+            string userID = Session["användarID"].ToString();
+            int IDuser = Int32.Parse(userID);
+            int idGame = (int)HttpContext.Session["currentID"];
+            Game game = new Game();
+            game = db.Game.Find(idGame);
+            int score = Point;
+            game.Total_Par = score;
+            game.Date = DateTime.Today;
+            db.Entry(game).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var gameRounds = from s in db.GameRound where s.Game1.ID == IDuser select s;
+            ViewBag.score = Point;
             return View(gameRounds.ToList());
         }
 

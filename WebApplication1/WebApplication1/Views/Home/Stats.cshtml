@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<WebApplication1.GameRound>
 
 @{
-    ViewBag.Title = "Total score";
+    ViewBag.Title = "Stats";
 }
 
-<h2>Index</h2>
+<h2>Stats</h2>
+<h1>@ViewBag.score</h1>
 
 <table class="table">
     <tr>
@@ -60,8 +61,3 @@
         </td>
     </tr>
 </table>
-
-@Html.ActionLink("Stats", "Stats", "Home", new { Point = score }, null);
-
-
-
