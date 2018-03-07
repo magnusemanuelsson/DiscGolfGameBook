@@ -206,6 +206,20 @@ namespace WebApplication1.Controllers
             }
             var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
 
+            foreach(var item in gameRounds)
+            {
+                if(item.Throws == 0)
+                {
+                    int delID = item.ID;
+                    GameRound gr = db.GameRound.Find(delID);
+                    db.GameRound.Remove(gr);
+                    
+                }
+            }
+            db.SaveChanges();
+
+            gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
+
             Game game = new Game();
             game = db.Game.Find(id);
             Session["currentID"] = id;
