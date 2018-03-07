@@ -196,18 +196,16 @@ namespace WebApplication1.Controllers
 
             //int idGame = gameRound.Game;
             var TotalScore = (from o in db.GameRound where o.Game == id select o.Throws).ToList();
-            ViewBag.totalscore = TotalScore.Sum();
+            
             game.Total_Par = TotalScore.Sum();
             game.Date = DateTime.Today;
-            db.Entry(game).State = EntityState.Modified;
-            db.SaveChanges();
-
-            ViewBag.date = game.Date;
-            
-
             game.Active = 0;
             db.Entry(game).State = EntityState.Modified;
             db.SaveChanges();
+
+            ViewBag.totalscore = TotalScore.Sum();
+            ViewBag.date = game.Date.Value.ToString("yyyy/MM/dd");
+            
             return View(gameRounds.ToList());
         }
 
@@ -217,15 +215,10 @@ namespace WebApplication1.Controllers
             
             return RedirectToAction("Stats", new { id = startRoundID }); ;
         }*/
-        public ActionResult Stats(int Point)
+        public ActionResult Stats()
         {
             string userID = Session["användarID"].ToString();
             int IDuser = Int32.Parse(userID);
-            int idGame = (int)HttpContext.Session["currentID"];
-            Game game = new Game();
-            game = db.Game.Find(idGame);
-            int score = Point;
-            
 
             var gameForPlayer = from s in db.Game where s.Player == IDuser select s ;
             

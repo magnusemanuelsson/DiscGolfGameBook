@@ -17,28 +17,34 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Total_Par)
+            <p>Total Score</p>
         </th>
 
-        <th></th>
+        <th>
+            <p>Details</p>
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+    <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.GolfCourse)
-            </td>
-            <td>
-                
-                @Html.ActionLink("FinishRound", "FinishRound", "Home", new { item.ID } , null)
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total_Par)
-            </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GolfCourse1.Name)
+        </td>
+        <td>
+            @if (item.Date.HasValue)
+            {
+                @item.Date.Value.ToString("yyyy/MM/dd")
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total_Par)
+        </td>
+        <td>
+            @Html.ActionLink("More info", "FinishRound", "Home", new { item.ID }, null)
+        </td>
 
-        </tr>
+    </tr>
     }
 </table>
