@@ -47,8 +47,6 @@ namespace WebApplication1.Controllers
             if (!String.IsNullOrEmpty(searchString)) { golfCourses = golfCourses.Where(s => s.Location.Contains(searchString)); }
 
             ViewBag.Locations = new SelectList(db.GolfCourse, "Name", "Location");
-            ViewBag.användarenamn = Session["användare"].ToString();
-            ViewBag.användare = Session["användarID"].ToString();
             return View(selectCourse);
         }
 

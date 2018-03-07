@@ -20,7 +20,6 @@ namespace WebApplication1
 
             int temp = Convert.ToInt32(com.ExecuteScalar().ToString());
             conn.Close();
-
             if (temp == 1)
             {
                 conn.Open();
@@ -64,17 +63,13 @@ namespace WebApplication1
                     Response.Redirect("~/Home/Spela");
 
                 }
-                else
+                else if (password != TextBoxLösen.Text)
                 {
                     Response.Write("Password is not correct");
 
                 }
             }
-            else
-            {
-                Response.Write("Username is not correct");
-
-            }
+            
 
         }
 
@@ -85,6 +80,20 @@ namespace WebApplication1
 
         protected void ButtonLoggain_Click(object sender, EventArgs e)
         {
-         }
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString);
+
+            conn.Open();
+            string checkuser = "select count(*) from Player where Username= '" + TextBoxAnvändarnamn.Text + "' ";
+            SqlCommand com = new SqlCommand(checkuser, conn);
+
+            int temp = Convert.ToInt32(com.ExecuteScalar().ToString());
+            conn.Close();
+            if(temp != 1)
+            {
+                Response.Write("Username is not correct");
+
+            }
+
+        }
     }
 }
