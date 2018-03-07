@@ -6,6 +6,11 @@
 
 <h2>Index</h2>
 
+<h1>
+    Omgången spelades: 
+    @ViewBag.date
+</h1>
+
 <table class="table">
     <tr>
 
@@ -50,7 +55,7 @@
         </tr>
 
         score = score + ((int)item.Throws - item.Hole1.Par);
-        if(score > 0)
+        if (score > 0)
         {
             plus = "+" + score;
         }
@@ -68,7 +73,7 @@
             <p>@(totalThrows)</p>
         </td>
         <td>
-            <p>@(plus)</p>
+            <p>@(score)</p>
         </td>
     </tr>
 </table>

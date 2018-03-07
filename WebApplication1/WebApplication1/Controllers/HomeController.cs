@@ -148,6 +148,7 @@ namespace WebApplication1.Controllers
                 int id = (int)HttpContext.Session["currentID"];
                 int currentHoleNumber = (from r in db.GameRound where r.ID == id select r.Hole1.Number).First();
                 int gameID = (from r in db.GameRound where r.ID == id select r.Game).First();
+                
                 bool next = false;
                 if (Request.Form["previousbutton"] != null)
                 {
@@ -174,10 +175,15 @@ namespace WebApplication1.Controllers
                         nextRoundID = ((from s in db.GameRound where s.Game1.ID == gameID select s).OrderByDescending(o => o.Hole1.Number)).FirstOrDefault().ID;
                     }
                 }
+
                 return RedirectToAction("PlayRound", new { id = nextRoundID });
             }
+
+            
+
             ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
             ViewBag.Hole = new SelectList(db.Hole, "ID", "ID", gameRound.Hole);
+                           
             return View(gameRound);
         }
         public ActionResult FinishRound(int id)
@@ -188,26 +194,29 @@ namespace WebApplication1.Controllers
             game = db.Game.Find(id);
             Session["currentID"] = id;
 
+            //int idGame = gameRound.Game;
+            var TotalScore = (from o in db.GameRound where o.Game == id select o.Throws).ToList();
+            ViewBag.totalscore = TotalScore.Sum();
+            game.Total_Par = TotalScore.Sum();
+            game.Date = DateTime.Today;
+            db.Entry(game).State = EntityState.Modified;
+            db.SaveChanges();
+
+            ViewBag.date = game.Date;
+            
+
             game.Active = 0;
             db.Entry(game).State = EntityState.Modified;
             db.SaveChanges();
             return View(gameRounds.ToList());
         }
 
-        [HttpPost]
-        public ActionResult FinishRound(int id)
+        /*[HttpPost]
+        public ActionResult FinishRound(FormCollection result)
         {
-            var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
-
-            Game game = new Game();
-            game = db.Game.Find(id);
-            Session["currentID"] = id;
-
-            game.Active = 0;
-            db.Entry(game).State = EntityState.Modified;
-            db.SaveChanges();
-            return View(gameRounds.ToList());
-        }
+            
+            return RedirectToAction("Stats", new { id = startRoundID }); ;
+        }*/
         public ActionResult Stats(int Point)
         {
             string userID = Session["användarID"].ToString();
@@ -216,14 +225,12 @@ namespace WebApplication1.Controllers
             Game game = new Game();
             game = db.Game.Find(idGame);
             int score = Point;
-            game.Total_Par = score;
-            game.Date = DateTime.Today;
-            db.Entry(game).State = EntityState.Modified;
-            db.SaveChanges();
+            
 
-            var gameRounds = from s in db.GameRound where s.Game1.ID == IDuser select s;
-            ViewBag.score = Point;
-            return View(gameRounds.ToList());
+            var gameForPlayer = from s in db.Game where s.Player == IDuser select s ;
+            
+            ViewBag.Userid = userID;
+            return View(gameForPlayer.ToList());
         }
 
     }

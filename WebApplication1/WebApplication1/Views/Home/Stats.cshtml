@@ -1,63 +1,44 @@
-﻿@model IEnumerable<WebApplication1.GameRound>
+﻿@model IEnumerable<WebApplication1.Game>
+
 
 @{
     ViewBag.Title = "Stats";
 }
 
 <h2>Stats</h2>
-<h1>@ViewBag.score</h1>
 
 <table class="table">
     <tr>
 
         <th>
-            @Html.DisplayNameFor(model => model.Hole1.Number)
+            @Html.DisplayNameFor(model => model.GolfCourse)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Hole1.Par)
+            @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Throws)
+            @Html.DisplayNameFor(model => model.Total_Par)
         </th>
-        <th>
-            <p>
-                Score
-            </p>
-        </th>
+
         <th></th>
     </tr>
-    @{ int score = 0;}
+
     @foreach (var item in Model)
     {
         <tr>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Hole1.Number)
+                @Html.DisplayFor(modelItem => item.GolfCourse)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Hole1.Par)
+                
+                @Html.ActionLink("FinishRound", "FinishRound", "Home", new { item.ID } , null)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Throws)
+                @Html.DisplayFor(modelItem => item.Total_Par)
             </td>
-            <td>
-                <p>
-                    @(item.Throws - item.Hole1.Par)
-                </p>
-            </td>
+
         </tr>
-
-        score = score + ((int)item.Throws - item.Hole1.Par);
-
     }
-    <tr>
-        <td>
-            <p>Total score</p>
-        </td>
-        <td></td>
-        <td></td>
-        <td>
-            <p>@( score)</p>
-        </td>
-    </tr>
 </table>
