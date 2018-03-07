@@ -4,12 +4,11 @@
     ViewBag.Title = "Total score";
 }
 
-<h2>Index</h2>
+<h2>Final score</h2>
 
-<h1>
-    Omgången spelades: 
+<h3>
     @ViewBag.date
-</h1>
+</h3>
 
 <table class="table">
     <tr>
@@ -67,7 +66,7 @@
             <p>Total </p>
         </td>
         <td>
-            <p>Course par: @(coursePar)</p>
+            <p>@(coursePar)</p>
         </td>
         <td>
             <p>@(totalThrows)</p>
@@ -78,7 +77,7 @@
     </tr>
 </table>
 
-@Html.ActionLink("Stats", "Stats", "Home", new { Point = score }, null);
+@Html.ActionLink("Stats", "Stats", "Home", new { Point = score }, null)
 
 
 
