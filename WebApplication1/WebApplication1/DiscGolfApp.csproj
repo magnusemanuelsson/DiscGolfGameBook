@@ -267,6 +267,7 @@
     </Content>
     <Content Include="Views\Home\Account.cshtml" />
     <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
