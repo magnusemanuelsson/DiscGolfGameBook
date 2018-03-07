@@ -17,6 +17,10 @@ namespace WebApplication1.Controllers
         // GET: Holes
         public ActionResult Index()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             var hole = db.Hole.Include(h => h.GolfCourse1);
             return View(hole.ToList());
         }
@@ -24,6 +28,10 @@ namespace WebApplication1.Controllers
         // GET: Holes/Details/5
         public ActionResult Details(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +47,11 @@ namespace WebApplication1.Controllers
         // GET: Holes/Create
         public ActionResult Create()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             ViewBag.GolfCourse = new SelectList(db.GolfCourse, "ID", "Name");
             return View();
         }
@@ -50,6 +63,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,GolfCourse,Par,Number")] Hole hole)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Hole.Add(hole);
@@ -64,6 +82,11 @@ namespace WebApplication1.Controllers
         // GET: Holes/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,6 +107,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,GolfCourse,Par,Number")] Hole hole)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(hole).State = EntityState.Modified;
@@ -97,6 +125,11 @@ namespace WebApplication1.Controllers
         // GET: Holes/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +147,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             Hole hole = db.Hole.Find(id);
             db.Hole.Remove(hole);
             db.SaveChanges();

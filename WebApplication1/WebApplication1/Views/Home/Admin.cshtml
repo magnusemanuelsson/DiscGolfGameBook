@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Admin</title>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Players", "Index", "Players")</li>
+                    <li>@Html.ActionLink("Golf Courses", "Index", "GolfCourses")</li>
+                    <li>@Html.ActionLink("Holes", "Index", "Holes")</li>
+                    <li>@Html.ActionLink("Games", "Index", "Games")</li>
+                    <li>@Html.ActionLink("Game-rounds", "Index", "GameRounds")</li>
+                    <li>@Html.ActionLink("Log Out", "LogOut", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+   
+    <h2>Administrator Control Panel</h2>
+    <p>CRUD-functionality can be accessed from Nav-bar.</p>
+</body>
+</html>
