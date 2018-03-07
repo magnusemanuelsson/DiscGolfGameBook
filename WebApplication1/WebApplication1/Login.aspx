@@ -11,13 +11,16 @@
         }
         .auto-style2 {
             width: 137px;
+            text-align: left;
         }
         .auto-style3 {
             width: 137px;
             height: 30px;
+            text-align: left;
         }
         .auto-style4 {
             height: 30px;
+            text-align: left;
         }
         .auto-style5 {
             text-align: center;
@@ -25,10 +28,15 @@
         }
         .auto-style6 {
             height: 30px;
-            width: 100px;
+            width: 88px;
+            text-align: left;
         }
         .auto-style7 {
-            width: 100px;
+            width: 88px;
+            text-align: left;
+        }
+        .auto-style11 {
+            text-align: left;
         }
     </style>
 </head>
@@ -52,7 +60,7 @@
                     <td class="auto-style7">
                         <asp:TextBox ID="TextBoxLösen" runat="server" TextMode="Password" Width="153px"></asp:TextBox>
                     </td>
-                    <td>
+                    <td class="auto-style11">
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBoxLösen" ErrorMessage="Enter password"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
@@ -61,7 +69,7 @@
                     <td class="auto-style7">
                         <asp:Button ID="ButtonLoggain" runat="server" OnClick="ButtonLoggain_Click" Text="Log in" />
                     </td>
-                    <td>
+                    <td class="auto-style11">
                         <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Registration.aspx">Sign up</asp:HyperLink>
                     </td>
                 </tr>
@@ -69,11 +77,13 @@
                     <td class="auto-style2">&nbsp;</td>
                     <td class="auto-style7">
                         &nbsp;</td>
-                    <td>
+                    <td class="auto-style11">
                         &nbsp;</td>
                 </tr>
             </table>
         </div>
     </form>
+    <p class="auto-style11">
+        &nbsp;</p>
 </body>
 </html>

@@ -60,6 +60,10 @@ namespace WebApplication1
                     {
                         Response.Redirect("~/Home/PlayRound/"+ Int32.Parse(GameRoundID) + "");
                     }
+                    if(actualUsername == "Admin")
+                    {
+                        Response.Redirect("~/Home/Admin/");
+                    }
                     Response.Redirect("~/Home/Spela");
 
                 }
