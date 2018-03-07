@@ -18,25 +18,25 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-        
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
+            return RedirectToAction("Spela");
         }
 
         public ActionResult Spela(string searchString)
         {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
+            int userID = Int32.Parse(Session["användarID"].ToString());
+            if ((from s in db.GameRound where s.Game1.Active == 1 && s.Game1.Player == userID select s).FirstOrDefault() != null)
+            {
+                int unfinishedID = ((from s in db.GameRound where s.Game1.Active == 1 && s.Game1.Player == userID select s).OrderBy(o => o.Hole1.Number)).FirstOrDefault().ID;
+                return RedirectToAction("PlayRound", new { id = unfinishedID });
+            }
             SelectCourse selectCourse = new SelectCourse();
             selectCourse.Courses = db.GolfCourse.ToList();
             selectCourse.Location = new SelectList(db.GolfCourse.GroupBy(x => x.Location).Select(x => x.FirstOrDefault()), "Location", "Location");
@@ -53,6 +53,10 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Spela(FormCollection collection)
         {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
             Game newGame = new Game();
             int gameID = 0;
 
@@ -73,11 +77,11 @@ namespace WebApplication1.Controllers
             }
 
             var holes = (from s in db.Hole
-                           where s.GolfCourse1.ID == IdCourse
-                           select new
-                           {
-                               id = s.ID,
-                           }).ToArray();
+                         where s.GolfCourse1.ID == IdCourse
+                         select new
+                         {
+                             id = s.ID,
+                         }).ToArray();
 
             int i = 0;
             foreach (var element in holes)
@@ -97,29 +101,32 @@ namespace WebApplication1.Controllers
 
             int startRoundID = (from s in db.GameRound where s.Game1.ID == gameID && s.Hole1.Number == 1 select s).First().ID;
 
-            return RedirectToAction("PlayRound" , new { id = startRoundID });
-            
- 
-        
+            return RedirectToAction("PlayRound", new { id = startRoundID });
+
+
+
         }
 
         [HttpPost]
         public ActionResult CoursesByLocation(string locationName)//SelectCourse selectCourse, FormCollection form, string locationName)
         {
             var courses = (from s in db.GolfCourse
-                          where s.Location.Equals(locationName)
+                           where s.Location.Equals(locationName)
                            select new
-                          {
-                              id = s.ID,
-                              course = s.Name
-                          }).ToArray();
+                           {
+                               id = s.ID,
+                               course = s.Name
+                           }).ToArray();
 
             return Json(courses, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PlayRound(int? id)
         {
-
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -139,6 +146,10 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PlayRound([Bind(Include = "ID,Game,Hole,Throws")] GameRound gameRound)
         {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(gameRound).State = EntityState.Modified;
@@ -146,7 +157,7 @@ namespace WebApplication1.Controllers
                 int id = (int)HttpContext.Session["currentID"];
                 int currentHoleNumber = (from r in db.GameRound where r.ID == id select r.Hole1.Number).First();
                 int gameID = (from r in db.GameRound where r.ID == id select r.Game).First();
-                
+
                 bool next = false;
                 if (Request.Form["previousbutton"] != null)
                 {
@@ -177,16 +188,35 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("PlayRound", new { id = nextRoundID });
             }
 
-            
+
 
             ViewBag.Game = new SelectList(db.Game, "ID", "ID", gameRound.Game);
             ViewBag.Hole = new SelectList(db.Hole, "ID", "ID", gameRound.Hole);
-                           
+
             return View(gameRound);
         }
+
         public ActionResult FinishRound(int id)
         {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
             var gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
+
+            foreach(var item in gameRounds)
+            {
+                if(item.Throws == 0)
+                {
+                    int delID = item.ID;
+                    GameRound gr = db.GameRound.Find(delID);
+                    db.GameRound.Remove(gr);
+                    
+                }
+            }
+            db.SaveChanges();
+
+            gameRounds = from s in db.GameRound where s.Game1.ID == id select s;
 
             Game game = new Game();
             game = db.Game.Find(id);
@@ -194,7 +224,7 @@ namespace WebApplication1.Controllers
 
             //int idGame = gameRound.Game;
             var TotalScore = (from o in db.GameRound where o.Game == id select o.Throws).ToList();
-            
+
             game.Total_Par = TotalScore.Sum();
             game.Date = DateTime.Today;
             game.Active = 0;
@@ -203,7 +233,7 @@ namespace WebApplication1.Controllers
 
             ViewBag.totalscore = TotalScore.Sum();
             ViewBag.date = game.Date.Value.ToString("yyyy/MM/dd");
-            
+
             return View(gameRounds.ToList());
         }
 
@@ -215,14 +245,55 @@ namespace WebApplication1.Controllers
         }*/
         public ActionResult Stats()
         {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
             string userID = Session["användarID"].ToString();
             int IDuser = Int32.Parse(userID);
 
-            var gameForPlayer = from s in db.Game where s.Player == IDuser select s ;
-            
+            var gameForPlayer = from s in db.Game where s.Player == IDuser && s.Active == 0 select s;
+
             ViewBag.Userid = userID;
             return View(gameForPlayer.ToList());
         }
 
+        public ActionResult LogOut()
+        {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Account()
+        {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
+            int id = Int32.Parse(Session["användarID"].ToString());
+            Player player = db.Player.Find(id);
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+            return View(player);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Account([Bind(Include = "ID,Name,Username,Password,TotalScore")] Player player)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(player).State = EntityState.Modified;
+                db.SaveChanges();
+                ViewBag.pwsaved = "Password successfully saved!";
+            }
+            return View(player);
+        }
     }
 }

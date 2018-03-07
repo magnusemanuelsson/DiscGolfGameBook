@@ -36,33 +36,33 @@
     <form id="form1" runat="server">
         <div>
             <div class="auto-style5">
-                <strong>Logga in</strong></div>
+                <strong>Log in</strong></div>
             <table class="auto-style1">
                 <tr>
-                    <td class="auto-style3">Användarnamn</td>
+                    <td class="auto-style3">Username</td>
                     <td class="auto-style6">
                         <asp:TextBox ID="TextBoxAnvändarnamn" runat="server" OnTextChanged="TextBox1_TextChanged" Width="153px"></asp:TextBox>
                     </td>
                     <td class="auto-style4">
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBoxAnvändarnamn" ErrorMessage="Fyll i användarnamn"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBoxAnvändarnamn" ErrorMessage="Enter username"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style2">Lösenord</td>
+                    <td class="auto-style2">Password</td>
                     <td class="auto-style7">
                         <asp:TextBox ID="TextBoxLösen" runat="server" TextMode="Password" Width="153px"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBoxLösen" ErrorMessage="Fyll i lösenord"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBoxLösen" ErrorMessage="Enter password"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
                     <td class="auto-style2">&nbsp;</td>
                     <td class="auto-style7">
-                        <asp:Button ID="ButtonLoggain" runat="server" OnClick="ButtonLoggain_Click" Text="Logga in" />
+                        <asp:Button ID="ButtonLoggain" runat="server" OnClick="ButtonLoggain_Click" Text="Log in" />
                     </td>
                     <td>
-                        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Registration.aspx">Ny användare registrera här!</asp:HyperLink>
+                        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Registration.aspx">Sign up</asp:HyperLink>
                     </td>
                 </tr>
                 <tr>

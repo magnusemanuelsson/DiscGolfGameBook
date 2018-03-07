@@ -25,19 +25,17 @@ namespace WebApplication1
                 conn.Open();
                 string checkPasswordQuery = "select password from Player where Username= '" + TextBoxAnvändarnamn.Text + "' ";
                 string idOnUser = "select ID from Player where Username= '" + TextBoxAnvändarnamn.Text + "' ";
-               
 
                 SqlCommand passComm = new SqlCommand(checkPasswordQuery, conn);
                 SqlCommand Iduser = new SqlCommand(idOnUser, conn);
                
-               
-
-                //int GameID = (from s in db.Game where s.Active == 1 && s.Player == playerID select s).First().ID;
-
-
                 string UserId = Iduser.ExecuteScalar().ToString();
-                //int IdUser = Int32.Parse(UserId);
-                
+
+
+                // Gets real username, from Database, to be saved in session
+                SqlCommand actualUserSQL = new SqlCommand("select Username from Player where ID= '" + UserId + "' ", conn);
+                string actualUsername = actualUserSQL.ExecuteScalar().ToString();
+
 
                 string activeGame = "select ID from Game where Active = 1 and Player = '" + Int32.Parse(UserId) +"' ";
                 SqlCommand gameActive = new SqlCommand(activeGame, conn);
@@ -55,7 +53,7 @@ namespace WebApplication1
                 if(password == TextBoxLösen.Text)
                 {
                     Session["new"] = TextBoxLösen.Text;
-                    Session["användare"] = TextBoxAnvändarnamn.Text;
+                    Session["användare"] = actualUsername;
                     Session["användarID"] = UserId;
                     Response.Write("Password is correct");
                     if(gameActive.ExecuteScalar() != null)
