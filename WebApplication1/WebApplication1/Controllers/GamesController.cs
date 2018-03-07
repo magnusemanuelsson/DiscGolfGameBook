@@ -17,6 +17,11 @@ namespace WebApplication1.Controllers
         // GET: Games
         public ActionResult Index()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             var game = db.Game.Include(g => g.GolfCourse1).Include(g => g.Player1);
             return View(game.ToList());
         }
@@ -24,6 +29,11 @@ namespace WebApplication1.Controllers
         // GET: Games/Details/5
         public ActionResult Details(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +49,11 @@ namespace WebApplication1.Controllers
         // GET: Games/Create
         public ActionResult Create()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             ViewBag.GolfCourse = new SelectList(db.GolfCourse, "ID", "Name");
             ViewBag.Player = new SelectList(db.Player, "ID", "Name");
             return View();
@@ -51,6 +66,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Player,GolfCourse,Date,Total_Par,Active")] Game game)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Game.Add(game);
@@ -66,6 +86,11 @@ namespace WebApplication1.Controllers
         // GET: Games/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -87,6 +112,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Player,GolfCourse,Date,Total_Par,Active")] Game game)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(game).State = EntityState.Modified;
@@ -101,6 +131,11 @@ namespace WebApplication1.Controllers
         // GET: Games/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -118,6 +153,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             Game game = db.Game.Find(id);
             db.Game.Remove(game);
             db.SaveChanges();

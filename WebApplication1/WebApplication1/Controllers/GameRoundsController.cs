@@ -17,6 +17,11 @@ namespace WebApplication1.Controllers
         // GET: GameRounds
         public ActionResult Index()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             var gameRound = db.GameRound.Include(g => g.Game1).Include(g => g.Hole1);
             return View(gameRound.ToList());
         }
@@ -24,6 +29,11 @@ namespace WebApplication1.Controllers
         // GET: GameRounds/Details/5
         public ActionResult Details(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +49,11 @@ namespace WebApplication1.Controllers
         // GET: GameRounds/Create
         public ActionResult Create()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             ViewBag.Game = new SelectList(db.Game, "ID", "ID");
             ViewBag.Hole = new SelectList(db.Hole, "ID", "ID");
             return View();
@@ -51,6 +66,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Game,Hole,Throws")] GameRound gameRound)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.GameRound.Add(gameRound);
@@ -66,6 +86,11 @@ namespace WebApplication1.Controllers
         // GET: GameRounds/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -87,6 +112,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Game,Hole,Throws")] GameRound gameRound)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(gameRound).State = EntityState.Modified;
@@ -101,6 +131,11 @@ namespace WebApplication1.Controllers
         // GET: GameRounds/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -118,6 +153,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             GameRound gameRound = db.GameRound.Find(id);
             db.GameRound.Remove(gameRound);
             db.SaveChanges();

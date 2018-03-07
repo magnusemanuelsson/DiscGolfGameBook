@@ -17,12 +17,20 @@ namespace WebApplication1.Controllers
         // GET: Players
         public ActionResult Index()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela","Home", null);
+            }
             return View(db.Player.ToList());
         }
 
         // GET: Players/Details/5
         public ActionResult Details(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +46,10 @@ namespace WebApplication1.Controllers
         // GET: Players/Create
         public ActionResult Create()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             return View();
         }
 
@@ -48,6 +60,10 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Username,Password,TotalScore")] Player player)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             if (ModelState.IsValid)
             {
                 db.Player.Add(player);
@@ -61,6 +77,10 @@ namespace WebApplication1.Controllers
         // GET: Players/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,6 +100,10 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,Username,Password,TotalScore")] Player player)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(player).State = EntityState.Modified;
@@ -92,6 +116,10 @@ namespace WebApplication1.Controllers
         // GET: Players/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,6 +137,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             Player player = db.Player.Find(id);
             db.Player.Remove(player);
             db.SaveChanges();

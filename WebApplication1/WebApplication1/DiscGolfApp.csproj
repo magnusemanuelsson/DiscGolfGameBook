@@ -266,6 +266,7 @@
       <BrowseToURL>~/Home/Stats</BrowseToURL>
     </Content>
     <Content Include="Views\Home\Account.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

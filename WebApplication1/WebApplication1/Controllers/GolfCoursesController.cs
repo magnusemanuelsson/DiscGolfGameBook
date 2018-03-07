@@ -17,12 +17,22 @@ namespace WebApplication1.Controllers
         // GET: GolfCourses
         public ActionResult Index()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             return View(db.GolfCourse.ToList());
         }
 
         // GET: GolfCourses/Details/5
         public ActionResult Details(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +48,11 @@ namespace WebApplication1.Controllers
         // GET: GolfCourses/Create
         public ActionResult Create()
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             return View();
         }
 
@@ -48,6 +63,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Location,Image")] GolfCourse golfCourse)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.GolfCourse.Add(golfCourse);
@@ -61,6 +81,11 @@ namespace WebApplication1.Controllers
         // GET: GolfCourses/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -80,6 +105,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,Location,Image")] GolfCourse golfCourse)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(golfCourse).State = EntityState.Modified;
@@ -92,6 +122,11 @@ namespace WebApplication1.Controllers
         // GET: GolfCourses/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,6 +144,11 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela", "Home", null);
+            }
+
             GolfCourse golfCourse = db.GolfCourse.Find(id);
             db.GolfCourse.Remove(golfCourse);
             db.SaveChanges();

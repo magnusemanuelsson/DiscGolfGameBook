@@ -297,5 +297,18 @@ namespace WebApplication1.Controllers
             }
             return View(player);
         }
+
+        public ActionResult Admin()
+        {
+            if (Session["användarID"] == null)
+            {
+                return Redirect("/Login.aspx");
+            }
+            if (!Session["användare"].Equals("Admin"))
+            {
+                return RedirectToAction("Spela");
+            }
+            return View();
+        }
     }
 }
