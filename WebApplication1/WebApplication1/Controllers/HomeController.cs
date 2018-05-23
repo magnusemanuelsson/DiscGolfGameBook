@@ -5,10 +5,13 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Newtonsoft.Json;
 using WebApplication1;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -18,15 +21,18 @@ namespace WebApplication1.Controllers
 
         public ActionResult Index()
         {
+
             if (Session["användarID"] == null)
             {
                 return Redirect("/Login.aspx");
             }
             return RedirectToAction("Spela");
         }
-
+        
         public ActionResult Spela(string searchString)
         {
+
+
             if (Session["användarID"] == null)
             {
                 return Redirect("/Login.aspx");
@@ -53,6 +59,8 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Spela(FormCollection collection)
         {
+
+
             if (Session["användarID"] == null)
             {
                 return Redirect("/Login.aspx");
@@ -223,15 +231,16 @@ namespace WebApplication1.Controllers
             Session["currentID"] = id;
 
             //int idGame = gameRound.Game;
-            var TotalScore = (from o in db.GameRound where o.Game == id select o.Throws).ToList();
+            var TotalThrows = (from o in db.GameRound where o.Game == id select o.Throws).ToList();
+            var TotalPar = (from x in db.GameRound where x.Game == id select x.Hole1.Par).ToList();
 
-            game.Total_Par = TotalScore.Sum();
+            game.Total_Par = (TotalThrows.Sum() - TotalPar.Sum());
             game.Date = DateTime.Today;
             game.Active = 0;
             db.Entry(game).State = EntityState.Modified;
             db.SaveChanges();
 
-            ViewBag.totalscore = TotalScore.Sum();
+            ViewBag.totalscore = TotalThrows.Sum();
             ViewBag.date = game.Date.Value.ToString("yyyy/MM/dd");
 
             return View(gameRounds.ToList());
@@ -307,6 +316,27 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Spela");
             }
             return View();
+        }
+        public ActionResult Weather()
+        {
+            List<WeatherInfo.TimeSery> wi = new List<WeatherInfo.TimeSery>();
+            wi = GetWeather();
+            if(wi != null)
+            {
+                return View(wi);
+            }
+            return View();
+        }
+        
+        public List<WeatherInfo.TimeSery> GetWeather()
+        {
+            string url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/20/lat/63/data.json";
+            WebClient webClient = new WebClient() { Encoding = Encoding.UTF8 };
+            string result = webClient.DownloadString(url);
+            List<WeatherInfo.TimeSery> weatherInfo = new List<WeatherInfo.TimeSery>();
+            weatherInfo = JsonConvert.DeserializeObject<List<WeatherInfo.TimeSery>>(result) as List<WeatherInfo.TimeSery>;
+
+            return weatherInfo;
         }
     }
 }

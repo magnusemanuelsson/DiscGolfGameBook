@@ -64,7 +64,7 @@ namespace WebApplication1
                     {
                         Response.Redirect("~/Home/Admin/");
                     }
-                    Response.Redirect("~/Home/Spela");
+                    Response.Redirect("~/Home/Weather");
 
                 }
                 else if (password != TextBoxLösen.Text)
