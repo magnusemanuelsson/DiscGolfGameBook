@@ -3,10 +3,12 @@
     ViewBag.Title = "Spela";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+@Styles.Render("~/Content/css")
+
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-<h2>Spela</h2>
+<nav class="menu">Spela</nav>
 
 @using (Html.BeginForm())
 {
@@ -18,9 +20,67 @@
     <div class="course">
         @Html.DropDownList("Course", Enumerable.Empty<SelectListItem>(), "Select Course", new { @disabled = "disabled" })
     </div>
- 
+
     <input type="submit" value="Starta" />
+    
 }
+
+<div id="map" style="width:100%;height:400px;"></div>
+<script>
+    function initMap() {
+        var korg = new Image();
+        korg = document.getElementById("korg");
+
+        var myCenter = new google.maps.LatLng(63.82842, 20.25972);
+        var mapCanvas = document.getElementById("map");
+        var mapOptions = { center: myCenter, zoom: 12 };
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+        var marker = new google.maps.Marker({ position: myCenter });
+        marker.setMap(map);
+        
+        var contentstring = '<h1> i20 <h1><br> <p>Testa Umeås finaste 18 håls bana som kräver känsla före längd</p>';
+
+        var infowindowi20 = new google.maps.InfoWindow({content : contentstring});
+
+
+        var i20center = new google.maps.LatLng(63.838884, 20.270803);
+        var i20 = new google.maps.Marker({
+            position: i20center, icon: {
+                url: `/Image/frisbekorg.png`,
+                scaledSize: new google.maps.Size(44, 44),
+                map: map, 
+                title: 'i20'
+            }
+        });
+        i20.addListener('click', function () {
+            infowindowi20.open(map, i20);
+        });
+
+        i20.setMap(map);
+
+        var contentstring = '<h1> Mariehem <h1><br> <p>Testa Umeås längre 18 håls bana som kräver längd i kasten</p>';
+
+        var infowindowmarie = new google.maps.InfoWindow({ content: contentstring });
+
+        var mariehemcenter = new google.maps.LatLng(63.836208, 20.313624);
+        var mariehem = new google.maps.Marker({
+            position: mariehemcenter, icon: {
+                url: `/Image/frisbekorg.png`,
+                scaledSize: new google.maps.Size(44, 44),
+                map : map,
+                title: 'i20'
+            }
+        });
+
+        mariehem.addListener('click', function () {
+            infowindowmarie.open(map, mariehem);
+        });
+
+        mariehem.setMap(map);
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeZ0LKWiLMNWqQGI_L5lLzo8ZN9Sa8AHU&callback=initMap" type="text/javascript"></script>
 
 <script>
 $(document).ready(function () {
