@@ -183,6 +183,7 @@
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\WeatherInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.aspx.cs">
       <DependentUpon>Registration.aspx</DependentUpon>
@@ -272,6 +273,7 @@
     <Content Include="Views\Home\Account.cshtml" />
     <Content Include="Views\Home\Admin.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Home\Weather.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

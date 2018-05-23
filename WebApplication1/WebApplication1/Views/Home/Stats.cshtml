@@ -24,7 +24,9 @@
             <p>Details</p>
         </th>
     </tr>
-
+    @{ int sum = 0;}
+    @{ int i = 0;}
+    @{ int average = 0;}
     @foreach (var item in Model)
     {
     <tr>
@@ -46,5 +48,25 @@
         </td>
 
     </tr>
+        if(item.Total_Par != 0)
+        {
+            i++;
+        }
+
+        sum = sum + (int)item.Total_Par;
     }
+    @{average = sum / i;}
+
+    <tr>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+            <p>Season average: @(average)</p>
+        </td>
+    </tr>
+
 </table>
