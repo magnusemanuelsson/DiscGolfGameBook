@@ -23,9 +23,16 @@
     </div>
 
     <input type="submit" value="Starta" />
-    
-}
 
+}
+    <p>
+        Temperatur: @ViewBag.temp C*
+        </p>
+<p>
+        Vindstyrka: @ViewBag.vind m/s
+    </p><p>
+        Datum: @ViewBag.tid
+    </p>
 <div id="map" style="width:100%;height:400px;"></div>
 <script>
     function initMap() {
@@ -38,10 +45,10 @@
         var map = new google.maps.Map(mapCanvas, mapOptions);
         var marker = new google.maps.Marker({ position: myCenter });
         marker.setMap(map);
-        
+
         var contentstring = '<h1> i20 <h1><br> <p>Testa Umeås finaste 18 håls bana som kräver känsla före längd</p>';
 
-        var infowindowi20 = new google.maps.InfoWindow({content : contentstring});
+        var infowindowi20 = new google.maps.InfoWindow({ content: contentstring });
 
 
         var i20center = new google.maps.LatLng(63.838884, 20.270803);
@@ -49,7 +56,7 @@
             position: i20center, icon: {
                 url: `/Image/frisbekorg.png`,
                 scaledSize: new google.maps.Size(44, 44),
-                map: map, 
+                map: map,
                 title: 'i20'
             }
         });
@@ -68,7 +75,7 @@
             position: mariehemcenter, icon: {
                 url: `/Image/frisbekorg.png`,
                 scaledSize: new google.maps.Size(44, 44),
-                map : map,
+                map: map,
                 title: 'i20'
             }
         });

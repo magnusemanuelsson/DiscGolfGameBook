@@ -4,7 +4,7 @@
 
     ViewBag.Title = "Weather";
 }
-
+@ViewBag.vader
 <h2>Weather</h2>
 @foreach (var item in Model)
 {
@@ -14,12 +14,12 @@
 
         if (item.parameters[i].name == "t")
         {
-<p>Datum: @item.validTime</p>
-            
-<p>Typ: @item.parameters[i].name</p>
-            
-<p>Grader: @item.parameters[i].values[0]</p>
-            
+            <p>Datum: @item.validTime</p>
+
+            <p>Typ: @item.parameters[i].name</p>
+
+            <p>Grader: @item.parameters[i].values[0]</p>
+
 
         }
 

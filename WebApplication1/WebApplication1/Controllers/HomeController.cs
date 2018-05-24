@@ -12,12 +12,39 @@ using System.Web.Routing;
 using Newtonsoft.Json;
 using WebApplication1;
 using WebApplication1.Models;
+using TweetSharp;
+using System.Timers;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
         private Model1 db = new Model1();
+        private static string customer_key = "naXZJ2S2sq77gv9hbhYxOg7S0";
+        private static string customer_key_secret = "ESccotWGpj17QFKUmL7ao5JQOfm8DCUdbQuh1ONtlf6Iq2Kkq7";
+        private static string access_token = "999651100587384832-IzUDZ3nP73HD5ckcoDJtdmxBbvkCe0c";
+        private static string access_token_secret = "o2KnqDprkA9yljzGshzVtAZbjO0cI1iyRnkqOInfScxkT";
+          
+        private static TwitterService service = new TwitterService(customer_key, customer_key_secret, access_token, access_token_secret);
+
+        private static void SendTweet(string _status)
+        {
+            service.SendTweet(new SendTweetOptions { Status = _status }, (tweet, response) => 
+                {
+                if(response.StatusCode == HttpStatusCode.OK)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"<{DateTime.Now}> - Tweet Sent!");
+                        Console.ResetColor();
+                }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"<ERROR> " + response.Error.Message);
+                        Console.ResetColor();
+                    }
+            });
+        }
 
         public ActionResult Index()
         {
@@ -32,6 +59,13 @@ namespace WebApplication1.Controllers
         public ActionResult Spela(string searchString)
         {
 
+            WeatherInfo.RootObject wi = new WeatherInfo.RootObject();
+
+            wi = GetWeather();
+
+            ViewBag.temp = wi.timeSeries[2].parameters[1].values[0];
+            ViewBag.vind = wi.timeSeries[2].parameters[4].values[0];
+            ViewBag.tid = wi.timeSeries[2].validTime;
 
             if (Session["användarID"] == null)
             {
@@ -59,7 +93,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Spela(FormCollection collection)
         {
-
+            
 
             if (Session["användarID"] == null)
             {
@@ -203,9 +237,11 @@ namespace WebApplication1.Controllers
 
             return View(gameRound);
         }
+     
 
-        public ActionResult FinishRound(int id)
+        public ActionResult FinishRound(int id, FormCollection fc)
         {
+            
             if (Session["användarID"] == null)
             {
                 return Redirect("/Login.aspx");
@@ -235,6 +271,10 @@ namespace WebApplication1.Controllers
             var TotalPar = (from x in db.GameRound where x.Game == id select x.Hole1.Par).ToList();
 
             game.Total_Par = (TotalThrows.Sum() - TotalPar.Sum());
+
+        
+
+
             game.Date = DateTime.Today;
             game.Active = 0;
             db.Entry(game).State = EntityState.Modified;
@@ -242,6 +282,12 @@ namespace WebApplication1.Controllers
 
             ViewBag.totalscore = TotalThrows.Sum();
             ViewBag.date = game.Date.Value.ToString("yyyy/MM/dd");
+            if (fc["dela"] != null)
+            {
+                SendTweet("Jag fick nytt rekord +" + game.Total_Par.ToString());
+                return View(gameRounds.ToList());
+
+            }
 
             return View(gameRounds.ToList());
         }
@@ -320,19 +366,18 @@ namespace WebApplication1.Controllers
         public ActionResult Weather()
         {
             WeatherInfo.RootObject wi = new WeatherInfo.RootObject();
-            WeatherInfo.TimeSeries wt = new WeatherInfo.TimeSeries();
             
             wi = GetWeather();
-            if(wi != null)
-            {
+         
+                ViewBag.temp = wi.timeSeries[1].parameters[1].values[0];
+                ViewBag.dag = wi.timeSeries[1].parameters[4].values[0];
+                ViewBag.tid = wi.timeSeries[1].validTime;
                 return View(wi.timeSeries.ToList());
-            }
-            return View();
         }
         
         public WeatherInfo.RootObject GetWeather()
         {
-            string url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/20/lat/63/data.json";
+            string url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/20.263035/lat/63.825847/data.json";
             WebClient webClient = new WebClient() { Encoding = Encoding.UTF8 };
             string result = webClient.DownloadString(url);
             WeatherInfo.RootObject weatherInfo = new WeatherInfo.RootObject();
@@ -340,5 +385,6 @@ namespace WebApplication1.Controllers
 
             return weatherInfo;
         }
+
     }
 }

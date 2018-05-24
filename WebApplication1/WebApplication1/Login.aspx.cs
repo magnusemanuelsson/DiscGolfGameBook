@@ -11,6 +11,7 @@ namespace WebApplication1
 {
     public partial class Login : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Model1"].ConnectionString);
@@ -64,7 +65,7 @@ namespace WebApplication1
                     {
                         Response.Redirect("~/Home/Admin/");
                     }
-                    Response.Redirect("~/Home/Weather");
+                    Response.Redirect("~/Home/Spela");
 
                 }
                 else if (password != TextBoxLösen.Text)
