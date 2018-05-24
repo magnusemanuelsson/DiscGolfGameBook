@@ -319,22 +319,24 @@ namespace WebApplication1.Controllers
         }
         public ActionResult Weather()
         {
-            List<WeatherInfo.TimeSery> wi = new List<WeatherInfo.TimeSery>();
+            WeatherInfo.RootObject wi = new WeatherInfo.RootObject();
+            WeatherInfo.TimeSeries wt = new WeatherInfo.TimeSeries();
+            
             wi = GetWeather();
             if(wi != null)
             {
-                return View(wi);
+                return View(wi.timeSeries.ToList());
             }
             return View();
         }
         
-        public List<WeatherInfo.TimeSery> GetWeather()
+        public WeatherInfo.RootObject GetWeather()
         {
             string url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/20/lat/63/data.json";
             WebClient webClient = new WebClient() { Encoding = Encoding.UTF8 };
             string result = webClient.DownloadString(url);
-            List<WeatherInfo.TimeSery> weatherInfo = new List<WeatherInfo.TimeSery>();
-            weatherInfo = JsonConvert.DeserializeObject<List<WeatherInfo.TimeSery>>(result) as List<WeatherInfo.TimeSery>;
+            WeatherInfo.RootObject weatherInfo = new WeatherInfo.RootObject();
+            weatherInfo = JsonConvert.DeserializeObject<WeatherInfo.RootObject>(result);
 
             return weatherInfo;
         }
