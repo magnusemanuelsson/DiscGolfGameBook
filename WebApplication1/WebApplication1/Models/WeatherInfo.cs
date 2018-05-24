@@ -7,13 +7,13 @@ namespace WebApplication1.Models
 {
     public class WeatherInfo
     {
-        public class Geometry
+        public partial class Geometry
         {
             public string type { get; set; }
             public List<List<double>> coordinates { get; set; }
         }
 
-        public class Parameter
+        public partial class parameters
         {
             public string name { get; set; }
             public string levelType { get; set; }
@@ -21,19 +21,19 @@ namespace WebApplication1.Models
             public string unit { get; set; }
             public List<double> values { get; set; }
         }
-
-        public class TimeSery
+        
+        public partial class TimeSeries
         {
             public DateTime validTime { get; set; }
-            public List<Parameter> parameters { get; set; }
+            public List<parameters> parameters { get; set; }
         }
 
-        public class RootObject
+        public partial class RootObject
         {
             public DateTime approvedTime { get; set; }
             public DateTime referenceTime { get; set; }
             public Geometry geometry { get; set; }
-            public List<TimeSery> timeSeries { get; set; }
+            public List<TimeSeries> timeSeries { get; set; }
         }
     }
 }

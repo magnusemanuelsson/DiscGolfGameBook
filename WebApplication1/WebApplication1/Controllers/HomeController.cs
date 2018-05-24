@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using WebApplication1;
 using WebApplication1.Models;
@@ -319,22 +320,24 @@ namespace WebApplication1.Controllers
         }
         public ActionResult Weather()
         {
-            List<WeatherInfo.TimeSery> wi = new List<WeatherInfo.TimeSery>();
+            WeatherInfo.TimeSeries wi = new WeatherInfo.TimeSeries();
             wi = GetWeather();
-            if(wi != null)
+            if (wi != null)
             {
                 return View(wi);
             }
             return View();
         }
         
-        public List<WeatherInfo.TimeSery> GetWeather()
+        public WeatherInfo.TimeSeries GetWeather()
         {
             string url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/20/lat/63/data.json";
-            WebClient webClient = new WebClient() { Encoding = Encoding.UTF8 };
+            WebClient webClient = new WebClient();
             string result = webClient.DownloadString(url);
-            List<WeatherInfo.TimeSery> weatherInfo = new List<WeatherInfo.TimeSery>();
-            weatherInfo = JsonConvert.DeserializeObject<List<WeatherInfo.TimeSery>>(result) as List<WeatherInfo.TimeSery>;
+            
+            WeatherInfo.TimeSeries weatherInfo = new WeatherInfo.TimeSeries();
+            weatherInfo = JsonConvert.DeserializeObject<WeatherInfo.TimeSeries>(result) as WeatherInfo.TimeSeries;
+            
 
             return weatherInfo;
         }
