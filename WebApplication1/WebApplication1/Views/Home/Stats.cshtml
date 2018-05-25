@@ -29,26 +29,26 @@
     @{ int average = 0;}
     @foreach (var item in Model)
     {
-    <tr>
+        <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.GolfCourse1.Name)
-        </td>
-        <td>
-            @if (item.Date.HasValue)
-            {
-                @item.Date.Value.ToString("yyyy/MM/dd")
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total_Par)
-        </td>
-        <td>
-            @Html.ActionLink("More info", "FinishRound", "Home", new { item.ID }, null)
-        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolfCourse1.Name)
+            </td>
+            <td>
+                @if (item.Date.HasValue)
+                {
+                    @item.Date.Value.ToString("yyyy/MM/dd")
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total_Par)
+            </td>
+            <td>
+                @Html.ActionLink("More info", "FinishRound", "Home", new { item.ID }, null)
+            </td>
 
-    </tr>
-        if(item.Total_Par != 0)
+        </tr>
+        if (item.Total_Par != 0)
         {
             i++;
         }
@@ -58,12 +58,8 @@
     @{average = sum / i;}
 
     <tr>
-        <td>
-
-        </td>
-        <td>
-
-        </td>
+        <td></td>
+        <td></td>
         <td>
             <p>Season average: @(average)</p>
         </td>

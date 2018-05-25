@@ -72,7 +72,7 @@
             <p>@(totalThrows)</p>
         </td>
         <td>
-            @if(score > 0)
+            @if (score > 0)
             {
                 <p>@(plus)</p>
             }
@@ -84,6 +84,14 @@
         </td>
     </tr>
 </table>
+
+@using (Html.BeginForm())
+{
+
+<div style="display:none">@Html.TextBox("dela", "dela")</div>
+    <button input type="submit" value="Dela">Dela på twitter </button>
+
+}
 
 @Html.ActionLink("Stats", "Stats", "Home", new { Point = score }, null)
 
