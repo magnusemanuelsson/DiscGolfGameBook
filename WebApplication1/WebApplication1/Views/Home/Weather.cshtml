@@ -1,9 +1,10 @@
-﻿@model WebApplication1.Models.WeatherInfo.TimeSeries
+﻿@model List<WebApplication1.Models.WeatherInfo.TimeSery>
 @{
     ViewBag.Title = "Weather";
 }
 
 <h2>Weather</h2>
-
-@Html.DisplayFor(modelItem => Model.parameters)
-
+@foreach(var item in Model)
+{
+    @Html.DisplayFor(modelItem => item.parameters)
+}
